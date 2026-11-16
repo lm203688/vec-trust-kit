@@ -91,3 +91,48 @@ def rmse_rel(pred: "object", y_true: "object") -> float:
     y = np.asarray(y_true, dtype=float)
     denom = max(float(np.std(y)), 1e-8)
     return float(np.sqrt(np.mean((p - y) ** 2)) / denom)
+
+
+def paired_ladder_test(errors: dict[str, "object"], candidate: str = "model",
+                       baseline: str = "linear", n_perm: int = 5000,
+                       seed: int = 0) -> dict:
+    """配对置换检验：候选模型的逐点误差是否显著低于基线（回应评估需求书 R4）.
+
+    旧版 min_improvement=0.01 是拍脑袋值；这里改为：
+      1) 逐格配对误差差 d = err_base - err_cand（正=候选更好）
+      2) 报效应量 mean(d) 的 bootstrap 95% CI
+      3) 符号翻转置换检验给 p 值（H0: d 的分布关于 0 对称）
+      4) 只有当 CI 下界 > 0 且 p < 0.05 时才判"显著胜出"
+
+    errors: {模型名: np.ndarray，形状 (n_cells, n_genes) 的逐点绝对误差}
+    """
+    import numpy as np
+    if candidate not in errors or baseline not in errors:
+        raise ValueError(f"需要 {candidate} 和 {baseline} 的逐点误差")
+    d = (np.asarray(errors[baseline], dtype=float)
+         - np.asarray(errors[candidate], dtype=float)).ravel()
+    d = d[np.isfinite(d)]
+    if d.size < 10:
+        raise ValueError("配对样本太少（<10）")
+
+    effect = float(np.mean(d))
+    rng = np.random.default_rng(seed)
+    # bootstrap CI
+    boot = np.array([rng.choice(d, d.size, replace=True).mean() for _ in range(2000)])
+    ci_lo, ci_hi = float(np.quantile(boot, 0.025)), float(np.quantile(boot, 0.975))
+    # 符号翻转置换检验
+    signs = rng.choice([-1.0, 1.0], size=(n_perm, d.size))
+    null = (signs * d[None, :]).mean(axis=1)
+    p_two = float((np.abs(null) >= abs(effect)).mean())
+
+    significant = (ci_lo > 0) and (p_two < 0.05)
+    return {
+        "candidate": candidate, "baseline": baseline,
+        "mean_error_reduction": round(effect, 6),
+        "ci95": [round(ci_lo, 6), round(ci_hi, 6)],
+        "p_value": round(p_two, 5),
+        "significant": significant,
+        "verdict": "SIGNIFICANT_WIN" if significant else "NOT_SIGNIFICANT",
+        "note": "CI 下界>0 且 p<0.05 才判显著；未做多重比较校正，"
+                "多次比较请用 bonferroni 调整阈值 0.05/m。",
+    }
