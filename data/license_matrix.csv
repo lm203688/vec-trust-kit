@@ -6,16 +6,16 @@ Boltz-2,structure+affinity,MIT,MIT,-,yes,Boltz-2.1 已转托管 API 不在 MIT �
 Chai-1,structure,Apache-2.0,Apache-2.0,-,yes,Chai-2 不在许可范围,yes,https://github.com/chaidiscovery/chai-lab,2026-11-16
 OpenFold3,structure,see repo,see repo,-,yes,以仓库 LICENSE 原文为准,no,https://github.com/aqlaboratory/openfold,2026-11-16
 Protenix-v1,structure,see repo,see repo,-,yes,以仓库 LICENSE 原文为准,no,https://github.com/bytedance/Protenix,2026-11-16
-RF3,structure,see repo,see repo,-,yes,以仓库 LICENSE 原文为准,no,https://github.com/bakerlab/RF3,2026-11-16
+RF3,structure,see repo,see repo,-,yes,以仓库 LICENSE 原文为准,no,https://github.com/RosettaCommons/foundry/tree/production/models/rf3,2026-11-16
 Arc State,perturbation,see repo,see repo,-,no,官网记 CC-BY-NC-SA-4.0 非商业,yes,https://github.com/ArcInstitute/state,2026-11-16
 scLDM.CD4,perturbation,platform entry,platform entry,-,unknown,平台未标独立许可；属 Biohub 平台模型,no,https://virtualcellmodels.cziscience.com/model/scldm-cd4,2026-11-16
 ProteinTalks / PTV-1,perturbation,open source,-,PTDS 仅学术非商业,no,数据矩阵经 db.prottalks.com 仅供学术非商业,no,https://github.com/guomics-lab/PTV-1,2026-11-16
-CellVQ,single-cell FM,see repo,unclear,-,unknown,论文侧未声明商用,no,https://github.com/CellVQ,2026-11-16
+CellVQ,single-cell FM,see repo,unclear,-,unknown,论文侧未声明商用,no,https://github.com/A4Bio/CellVQ,2026-11-16
 scGPT,single-cell FM,MIT,not separately declared,-,unknown,权重许可未单独声明,no,https://github.com/bowang-lab/scGPT,2026-11-16
-Geneformer V2,single-cell FM,Apache-2.0,Apache-2.0,-,yes,-,no,https://github.com/theislab/geneformer,2026-11-16
+Geneformer V2,single-cell FM,Apache-2.0,Apache-2.0,-,yes,原 GitHub 仓库已下线（404）；许可以论文与 HF 权重卡为准,no,https://doi.org/10.1038/s41586-023-06139-9 | https://huggingface.co/ctheodoris/Geneformer,2026-11-16
 scFoundation,single-cell FM,Apache-2.0,non-commercial research,-,no,代码可商用但原始权重限非商业研究,yes,https://github.com/biomap-research/scFoundation,2026-11-16
 scBERT,single-cell FM,GPL-3.0,-,-,no,Copyleft 传染,no,https://github.com/TencentAILabHealthcare/scBERT,2026-11-16
-CellPLM,single-cell FM,BSD-2,BSD-2,-,yes,-,no,https://github.com/jyhuang92/CellPLM,2026-11-16
+CellPLM,single-cell FM,BSD-2,BSD-2,-,yes,-,no,https://github.com/OmicsML/CellPLM,2026-11-16
 Tahoe-100M,perturbation data,-,-,CC0-1.0,yes,约 1 亿细胞 / 50 癌系 / 429GB；可商用可再训练,no,https://huggingface.co/datasets/tahoebio/Tahoe-100M,2026-11-16
 CELLxGENE Census,single-cell data,-,-,open (S3 + TileDB-SOMA),yes,以各数据集子集许可为准,no,https://cellxgene.cziscience.com/,2026-11-16
 Human Cell Atlas,single-cell data,-,-,CC-BY-4.0,yes,需署名,no,https://data.humancellatlas.org/,2026-11-16
@@ -23,5 +23,5 @@ VCC 2025 training set,perturbation data,-,-,CC-BY-4.0 (secondary),unknown,二手
 Virtual Embryo Challenge data,competition data,-,-,research+education only,no,公开发表/展示/再分发须经 UCSD Dr. Neil Chi 团队事先批准,no,https://virtualembryo.ai/challenge/terms,2026-11-16
 cell-eval,evaluation,MIT,-,-,yes,-,no,https://github.com/ArcInstitute/cell-eval,2026-11-16
 cz-benchmarks,evaluation,see repo,-,-,yes,以仓库 LICENSE 原文为准,no,https://github.com/chanzuckerberg/cz-benchmarks,2026-11-16
-scPerturBench,evaluation,MIT,-,-,yes,含 leaderboard；29 数据集,no,https://github.com/theislab/scPerturBench,2026-11-16
-SwarmLabs engine-kit,UQ+evaluation,MIT,-,-,yes,本工具包 conformal 内核来源,no,https://github.com/lm203688/swarmlabs,2026-11-16
+scPerturBench,evaluation,MIT,-,-,yes,含 leaderboard；29 数据集,no,https://github.com/bm2-lab/scPerturBench,2026-11-16
+SwarmLabs engine-kit,UQ+evaluation,MIT,-,-,yes,本工具包 conformal 内核对齐 engine/conformal.py 与 engine/baseline_ladder.py,no,https://github.com/lm203688/swarmlabs-public,2026-11-16
