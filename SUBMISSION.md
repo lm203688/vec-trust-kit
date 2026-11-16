@@ -2,28 +2,24 @@
 
 ## 当前状态
 
-**公开地址已上线并验证可用，只差你本人登录官网提交。**
-
-本地 git 推送路径不可用（SSH key 未授权、gh CLI 崩溃、无代码托管 Connector），所以我改用自主可控的方式：把整个包做成了公开可访问的展示站点，含源码包 / notebook / CSV 三个下载入口。
+**永久仓库 + 展示站点都已上线并验证，只差你本人登录官网提交。**
 
 | 项 | 状态 |
 |---|---|
-| 包内容（代码 + 中文教程 + 许可图谱 + 测试） | ✅ 本地完成 |
+| 包内容（代码 + 中文教程 + 许可图谱 + 测试） | ✅ 完成 |
 | 10 项自测 / notebook 全格执行 | ✅ 通过 |
-| 公开可访问地址 | ✅ 已部署并验证 HTTP 200 |
-| 源码包 / notebook / CSV 下载 | ✅ 全部 HTTP 200，字节数匹配 |
+| **GitHub 永久仓库** | ✅ https://github.com/lm203688/vec-trust-kit （public / main / 14 文件） |
+| GitHub API 独立复验 | ✅ 关键文件逐字节 MATCH；notebook 13 格完整；凭证扫描 CLEAN |
+| 展示站点 | ✅ 已部署并验证 HTTP 200 |
 | 官网提交表单 | ⬜ **需要你登录填写（我没有你的挑战赛账号）** |
 
-### 公开地址
+### 两个公开地址（提交时都填）
 
-**主页**：https://wbapp-jzwfj5frsi2adm0ahs258b.app.workbuddy.host/?sharecode=RRM6MWPMAO
+**① 永久仓库（首选，作为主链接）**：https://github.com/lm203688/vec-trust-kit
 
-下载入口（页面内也可点）：
-- 源码包：`https://wbapp-jzwfj5frsi2adm0ahs258b.app.workbuddy.host/downloads/vec-trust-kit.zip?sharecode=RRM6MWPMAO`
-- 中文 notebook：同路径 `/downloads/中文教程_模型可信度诊断.ipynb?sharecode=RRM6MWPMAO`
-- 许可图谱：`/downloads/license_matrix.csv?sharecode=RRM6MWPMAO`
+**② 可读展示站点（辅助，评审点开能直接看结论）**：https://wbapp-jzwfj5frsi2adm0ahs258b.app.workbuddy.host/?sharecode=RRM6MWPMAO
 
-> ⚠️ **诚实标注**：这是 WorkBuddy 的托管子域名，不是 GitHub/Gitee 永久仓库。官网只要求"公开地址 + 可公开获取"，未强制指定托管方，但临时域名在长期可引用性上弱于 GitHub。如果你有 GitHub 账号，建议把源码再推一个永久仓库，提交时**两个链接都填**（公开站点做可读展示，GitHub 做永久存档）。这一步我不能代做。
+> 说明：GitHub 仓库是永久存档、可 clone、可复现；展示站点把核心结果渲染成网页并附源码包下载，方便评审快速理解。两者内容一致。
 
 ---
 
@@ -33,9 +29,8 @@
    https://virtualembryo.ai/challenge/resources
 2. 打开社区贡献提交页，用右上角按钮登录：
    https://virtualembryo.ai/challenge/community
-3. 填入上面的公开主页地址，按下面的文案填写说明。
+3. 主链接填 GitHub 仓库，备注里附展示站点；按下面的文案填写说明。
 4. 不需要注册参赛队伍，不需要提交比赛预测文件。
-5.（可选但推荐）若有 GitHub，推送源码后把永久仓库链接一并提交。
 
 **截止**：滚动评审，资金发完或 Challenge 结束（2026-12-11）为止。越早提交权重越高——官网原话是早期教程帮到的人更多。
 
