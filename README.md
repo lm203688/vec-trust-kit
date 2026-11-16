@@ -9,6 +9,22 @@
 
 ---
 
+## English summary
+
+**vec-trust-kit** is a Chinese-language, numpy-only *trust diagnostics* toolkit for virtual cell / embryo prediction models. It does not train a model. It helps a competitor decide when a leaderboard number can actually be trusted.
+
+Three reusable assets:
+
+1. **Baseline ladder** — a candidate model is admitted only if it strictly beats `copy_last`, `mean` and `linear` on in-domain error.
+2. **Split-conformal extrapolation audit** — empirical coverage is checked under three held-out protocols (unseen developmental stage / unseen tissue / unseen perturbation), returning a graded verdict, plus an explicit check for the failure mode where coverage looks healthy only because the intervals became too wide to discriminate.
+3. **Three-layer license matrix** — 26 entries in the virtual-cell ecosystem, annotated separately for code, weights and data, each with source URLs and a verification date.
+
+Also included: a 13-cell Chinese tutorial notebook, 10 passing tests, MIT license, no GPU, no paid API, and no restricted competition data.
+
+**What this is not.** Every number in the demo below comes from a synthetic generator with a fixed seed: it is a mechanism demonstration, not an empirical claim about any real model, and the tool does **not** implement the challenge's official metrics. Please read 「局限与边界」 below before citing anything here.
+
+---
+
 ## 一句话说清它解决什么
 
 2025 年 Nature Methods 的 27 方法 × 29 数据集基准给出过一个不好听的结论：跨未见细胞环境时，多数模型明显退化，有些**打不过一行线性基线**。
@@ -36,7 +52,9 @@ python -m vec_trust.licenses --commercial-only --markdown
 
 ---
 
-## 实际输出
+## 合成数据上的输出（机制演示）
+
+> 下表全部来自 `vec_trust/synthetic.py` 的固定种子合成图谱，**不是任何真实模型的实测结果**。它的作用是演示"域内通过、外推崩塌"这一失效模式可以被工具稳定检出，而不是证明某个具体模型不可信。
 
 ```
 模型               域内RMSE   域内覆盖   最差外推覆盖     外推裁决    基线阶梯
@@ -54,16 +72,16 @@ model            0.2376      0.891         0.083         REFUTED   ADMITTED
 
 ## 三种外推协议
 
-对应挑战赛三个任务：
+这三个协议在**设定上**与挑战赛三个任务的划分方式同类，便于参赛者把工具接到自己的划分上；它们是本工具自己的接口，**不是官方指标、也不读官方评测代码**。
 
-| 协议 | 含义 | 对应任务 |
+| 协议 | 本工具的构造 | 挑战赛中的同类设定 |
 |---|---|---|
 | `unseen_stage` | 训练到 E10.5，测 E12.5 | T1 时间外推 |
 | `unseen_tissue` | 训练在 heart，测 embryo | T2 空间-时间外推 |
 | `unseen_perturbation` | 训练 WT + KO_A，测 KO_B | T3 敲除效应外推 |
 
 覆盖判定分级：`PASS_FULL > PASS_PARTIAL > PASS_WEAK > MARGINAL > REFUTED`。
-纯计算模拟最高只能拿 PASS_PARTIAL；PASS_FULL 要求有湿实验锚点。
+这套分级是本工具**自定义**的，官方规则里没有对应条款。纯计算模拟最高只能到 PASS_PARTIAL；PASS_FULL 需要我们额外拿到真实实验锚点才算。
 
 另外有一项**虚假通过**检查：覆盖率虚高但区间宽度超过域内 10 倍，判 REFUTED。区间宽到没有分辨力，覆盖率再高也没意义。
 
@@ -133,9 +151,21 @@ print(to_markdown(rows))
 
 ---
 
+## 局限与边界（先读）
+
+| 边界 | 说明 |
+|---|---|
+| 数据是合成的 | 演示数字来自 `synthetic.py`，用途是演示失效模式可被检出，不能拿来评价任何真实模型 |
+| 不实现官方指标 | 官方 T1 是四项加权指标（含细胞状态分布），T2 是八项、T3 是五项，本工具一概没有实现，不能替代官方评测 |
+| 未在赛事数据上运行 | 没有碰赛事数据（许可限制）；接真实数据需要自己用 `predict_with()` 适配 |
+| 判决规则偏严 | 压力测试显示：把生成器换成参数正确的 sigmoid 族，当前单一阈值仍会判 REFUTED。也就是说方差大的模型可能被误判。v0.2 会把单一裁决拆成 ΔRMSE / Δ覆盖 / Δ区间宽度 三项分别报告 |
+| 许可表是二手调研 | 26 条的 source 链接已逐个 HTTP 校验（2026-11-16）：所有 GitHub 与官方网站链接均 200，HuggingFace 与 AlphaFold Server 三处命令行下未取到状态码、未作可达性断言。许可结论以官方 LICENSE 原文为准；4 条冲突标 `conflict=yes` 但未裁决 |
+
+---
+
 ## 致谢与许可
 
-conformal 审计内核迁移自 [SwarmLabs](https://github.com/lm203688/swarmlabs)（`engine/conformal.py`、`engine/baseline_ladder.py`、`outputs/swarmlabs-conformal-audit/scripts/verify.py`），MIT 许可，Copyright 2026 lm203688。改写为模型无关接口，并新增三种外推协议与分级裁决。
+conformal 审计内核迁移自 [SwarmLabs](https://github.com/lm203688/swarmlabs-public) 的 `engine/conformal.py` 与 `engine/baseline_ladder.py`（MIT，Copyright 2026 lm203688），改写为模型无关接口，并新增三种外推协议与分级裁决。
 
 包内代码 MIT，Copyright 2026 Li Xing。
 
