@@ -1,112 +1,178 @@
 # vec-trust-kit
 
-虚拟胚胎挑战赛（NeurIPS 2026 Virtual Embryo Challenge）的**赛前体检**工具包。中文，零 GPU，最小依赖只有 numpy。
+虚拟细胞 / 虚拟胚胎预测模型的**可信度诊断工具包**。中文，零 GPU，零付费 API，只依赖 numpy。
 
-在你花掉那 2 次不可撤回的 P3 提交之前，它告诉你三件事：你离 floor 还有多远、哪一项加权指标最弱、你声明的外部数据有没有踩保护窗。
+面向 [NeurIPS 2026 Virtual Embryo Challenge](https://virtualembryo.ai/challenge) 的 Community Contribution Award：不造新模型，帮参赛者判断**什么时候该信模型、什么时候直接用简单基线**。
 
-> ⚠️ **诚实声明**：内置 demo 使用**合成数据**（`synthetic.py`，固定种子），所有数字是**机制演示**（demo of a mechanism），不是模型评测实证结论，**不可**作为"某模型不可信"的证据引用。官方指标镜像是明确标注的**本地近似**，不是赛事 scorer。
-
-在线展示：https://wbapp-hwixdhi5nwlxgljprmwzzg.app.workbuddy.host/?sharecode=G75FFFHLWF
 永久仓库：https://github.com/lm203688/vec-trust-kit
+在线展示与下载：https://wbapp-jzwfj5frsi2adm0ahs258b.app.workbuddy.host/?sharecode=RRM6MWPMAO
 
 ---
 
-## 一句话定位
+## English summary
 
-**不要用一个漂亮的分数，去换一次不可撤回的提交。**
+**vec-trust-kit** is a Chinese-language, numpy-only *trust diagnostics* toolkit for virtual cell / embryo prediction models. It does not train a model. It helps a competitor decide when a leaderboard number can actually be trusted.
 
-2025 年 Nature Methods 的 27 方法 × 29 数据集基准给出过一个不好听的结论：跨未见细胞环境时，多数模型明显退化，有些**打不过一行线性基线**。排行榜只给一个分数，不告诉你这个分数在什么条件下成立。本工具补上这一层。
+Three reusable assets:
+
+1. **Baseline ladder** — a candidate model is admitted only if it strictly beats `copy_last`, `mean` and `linear` on in-domain error.
+2. **Split-conformal extrapolation audit** — empirical coverage is checked under three held-out protocols (unseen developmental stage / unseen tissue / unseen perturbation), returning a graded verdict, plus an explicit check for the failure mode where coverage looks healthy only because the intervals became too wide to discriminate.
+3. **Three-layer license matrix** — 26 entries in the virtual-cell ecosystem, annotated separately for code, weights and data, each with source URLs and a verification date.
+
+Also included: a 13-cell Chinese tutorial notebook, 10 passing tests, MIT license, no GPU, no paid API, and no restricted competition data.
+
+**What this is not.** Every number in the demo below comes from a synthetic generator with a fixed seed: it is a mechanism demonstration, not an empirical claim about any real model, and the tool does **not** implement the challenge's official metrics. Please read 「局限与边界」 below before citing anything here.
+
+---
+
+## 一句话说清它解决什么
+
+2025 年 Nature Methods 的 27 方法 × 29 数据集基准给出过一个不好听的结论：跨未见细胞环境时，多数模型明显退化，有些**打不过一行线性基线**。
+
+但比赛排行榜只给一个分数，不会告诉你这个分数是在什么条件下拿到的。本工具做两件榜单不做的事：
+
+1. **基线阶梯**：域内指标上，复杂模型必须严格击败 copy_last / mean / linear 才准入。
+2. **外推覆盖诊断**：用 split conformal 区间检查三个外推协议下的实际覆盖率，覆盖崩了就判 REFUTED。
+
+这两件事一起看，才能发现最危险的一类失效——**域内赢过基线，外推全线崩塌**。
 
 ---
 
 ## 快速开始
 
 ```bash
-pip install -e .
-vectrust --help
-vectrust diagnose --model linear --n-boot 10       # 二维诊断（推荐）
-vectrust guard --stage E11.5 --gene Ctnnb1          # 保护窗判定
-vectrust score --task T1                             # 本地近似打分
-python -m pytest tests/ -q                            # 40 项测试
-python -m vec_trust.licenses --audit --check-urls   # 许可图谱闭环自检
+python examples/demo.py                 # 完整诊断报告
+python examples/demo.py --json out.json # 同时导出机读结果
+python -m pytest tests/ -q              # 10 项自测
+python -m vec_trust.licenses --conflicts
+python -m vec_trust.licenses --commercial-only --markdown
 ```
 
-不安装也可直接跑：`python examples/demo.py`。
+无需下载数据。合成图谱由固定种子生成，任何人跑出的数字都一样。
 
 ---
 
-## v0.2 相对 v0.1 的关键修正（回应外部评估）
+## 合成数据上的输出（机制演示）
 
-| v0.1 问题 | v0.2 修正 |
-|---|---|
-| 裁决恒 `REFUTED`，不可证伪，结论由合成器写死 | `diagnose()` 拆成**模型维（ΔRMSE）× 区间维（Δ覆盖）**；正确模型 + 自适应区间现在**能通过**，错误模型才失败 |
-| 把 conformal 在漂移下失效当作模型证据 | 明确标注为定理级已知结果；判据改为"自适应区间能否把覆盖救回" |
-| 单种子单划分 | n_boot 次重复 + bootstrap 95% CI；基线阶梯加配对置换检验 |
-| "三协议=三个官方任务""9 指标"等自造概念 | 官方面板镜像：T1 25/25/30/20、T2 4×25%、T3 30/25/25/20，归一化到 floor=50/ceiling=100（明确标注本地近似） |
-| 不可安装、无 CLI、无 CI | `pip install .`、`vectrust` CLI、GitHub Actions（3 个 Python 版本）、`CITATION.cff` |
-| 许可图谱 30% 死链、四成 "see repo" | 3 条死链修正、see repo 归零、9 条冲突各有裁决+证据、`--audit` 闭环检查 |
+> 下表全部来自 `vec_trust/synthetic.py` 的固定种子合成图谱，**不是任何真实模型的实测结果**。它的作用是演示"域内通过、外推崩塌"这一失效模式可以被工具稳定检出，而不是证明某个具体模型不可信。
 
-### 招牌结论：诊断现在能区分病因
+```
+模型               域内RMSE   域内覆盖   最差外推覆盖     外推裁决    基线阶梯
+copy_last        0.3530      1.000         0.662       PASS_WEAK        N/A
+mean             1.1680      0.758         0.117         REFUTED        N/A
+linear           0.2502      0.916         0.144         REFUTED        N/A
+model            0.2376      0.891         0.083         REFUTED   ADMITTED
+```
 
-| 模型 | 区间 | ΔRMSE | 外推覆盖 | 病因 |
-|---|---|---|---|---|
-| poly3（错误族） | static | 2.58× | 0.36 | MODEL_ERROR——误差涨 2.6 倍，换区间也救不回 |
-| linear（正确族） | static | 1.30× | 0.67 | INTERVAL_NOT_ADAPTIVE——误差稳，但区间没随距离增长 |
-| linear（正确族） | adaptive | 1.30× | 0.87 | 覆盖恢复——**证明裁决取决于被测对象，不是生成器写死** |
+`model` 是三次多项式。它在训练域内确实比线性模型好（0.2376 < 0.2502），所以基线阶梯放它进门。但真实表达随发育时间**饱和**，多项式不会饱和，到了未见阶段就一路外冲——时间外推覆盖只剩 0.083。
 
-（以上均为合成机制演示数字。）
+这就是全部要点：**域内指标通过，不等于模型可以外推。**
 
 ---
 
-## 三个赛前体检模块
+## 三种外推协议
 
-| 模块 | 解决什么 | 稀缺性来源 |
+这三个协议在**设定上**与挑战赛三个任务的划分方式同类，便于参赛者把工具接到自己的划分上；它们是本工具自己的接口，**不是官方指标、也不读官方评测代码**。
+
+| 协议 | 本工具的构造 | 挑战赛中的同类设定 |
 |---|---|---|
-| **Score Mirror** | 近似 50–100 分、四项/八项/五项分解、找最弱项 | P3 每榜仅 2 次提交 |
-| **Rule Guard** | 外部数据是否落入保护窗（T1 E9.5–E13.5 含 nearness 中点规则、T2/T3 禁带）+ 披露模板 | "未披露即违规"，边界规则极复杂 |
-| **Bio Gate** | 组成比例 / marker / 3D 连续性 / 生长尺度 / 谱系有序性五道门 | 通用 conformal 工具做不出来；对应 T1 的 30% 分布权重与 T2 的 25% 几何权重 |
+| `unseen_stage` | 训练到 E10.5，测 E12.5 | T1 时间外推 |
+| `unseen_tissue` | 训练在 heart，测 embryo | T2 空间-时间外推 |
+| `unseen_perturbation` | 训练 WT + KO_A，测 KO_B | T3 敲除效应外推 |
 
-另有**格式预检**（基因顺序、`spatial_3D`、NaN、≤1200MB、无标签列）与**三层许可图谱**（代码/权重/数据，27 条）。
+覆盖判定分级：`PASS_FULL > PASS_PARTIAL > PASS_WEAK > MARGINAL > REFUTED`。
+这套分级是本工具**自定义**的，官方规则里没有对应条款。纯计算模拟最高只能到 PASS_PARTIAL；PASS_FULL 需要我们额外拿到真实实验锚点才算。
 
-> Rule Guard 与 Bio Gate 是基于公开信息的**保守近似**，输出是人工复核线索，不是合规裁决，以官网原文为准。
+另外有一项**虚假通过**检查：覆盖率虚高但区间宽度超过域内 10 倍，判 REFUTED。区间宽到没有分辨力，覆盖率再高也没意义。
 
 ---
 
 ## 三层许可图谱
 
-`data/license_matrix.csv` 每条按**代码 / 权重 / 数据**分别标注，27 条、unknown=0、see repo=0。核查中发现并修正的问题：
+`data/license_matrix.csv` 收录 26 个虚拟细胞生态常用项目，按**代码 / 权重 / 数据**三层分别标注。这不是可有可无的附录——本次调研里最容易踩坑的就是这里：
 
-| 项目 | 原记录问题 | 修正 |
-|---|---|---|
-| CellVQ | `github.com/CellVQ` 死链 | `A4Bio/CellVQ`（MIT） |
-| RF3 | `bakerlab/RF3` 死链 | `RosettaCommons/modelforge`（BSD-3-Clause，可商用） |
-| scPerturBench | `theislab/` 死链 + "MIT" 存疑 | `bm2-lab/scPerturBench`（**GPL-3.0**，冲突已裁决） |
-| Geneformer V2 | GitHub 仓库已不存在 | HuggingFace `ctheodoris/Geneformer`（Apache-2.0） |
-| Protenix | "see repo" | v1 Apache-2.0 可商用；**v2 权重专有** |
-| OpenFold3 | 指向 v1 主仓 | `aqlaboratory/openfold-3`（Apache-2.0） |
+下表是**已按 LICENSE / README 原文复核后改正**的条目（2026-11-16 复核）：
 
-仍有 4 条标 `UNRESOLVED`（Arc State / scGPT / scFoundation / VCC2025 训练集）——缺一手 LICENSE 原文，**诚实标注而非强行裁决**。动手前请读官方 LICENSE。
+| 项目 | 坑（已改正的结论） |
+|---|---|
+| scPerturBench | 实为 **GPL-3.0**，不是 MIT；分发衍生作品须开源 |
+| CellVQ / PTV-1 | 仓库**没有 LICENSE 文件**，默认保留所有权利，不能当开源用 |
+| OpenFold3 / Protenix | 实为 **Apache-2.0**（此前记"见仓库"） |
+| RF3 | **BSD-3-Clause**，且 LICENSE.md 明文覆盖模型权重 |
+| Arc State | 代码 CC BY-NC-SA 4.0；**权重与输出另有 State Model 非商业许可 + AUP**，三层三套条款 |
+| scFoundation | 代码 Apache-2.0，但权重受独立 Model License 约束（该条款文本不在仓库内，故只能标"需另查"） |
+| AlphaFold 3 | 代码 2026-06 起 Apache-2.0，权重仍非商业；Server 输出禁用于 docking / 筛选 / 训练 ML |
+
+查询接口：
 
 ```python
-from vec_trust.licenses import query, audit_matrix, to_markdown
-print(to_markdown(query(conflicts_only=True)))
-print(audit_matrix(check_urls=True))
+from vec_trust.licenses import load_license_matrix, query, to_markdown
+
+rows = query(conflicts_only=True)   # 只看有冲突的
+print(to_markdown(rows))
 ```
+
+**所有条目核查于 2026-11-16。** 本表只用于筛选，不用于合规决策——决策请读官方 LICENSE 原文。
+
+> 完整核对（27 项、逐行证据 URL、可重跑的一致性校验）已独立成一份贡献：[vec-license-atlas](https://github.com/lm203688/vec-license-atlas)。本仓库保留简表是为了让诊断流程自带一个许可入口，权威版本在那份指过去。
 
 ---
 
-## 参赛路径
+## 参赛路径决策树
 
-走 **Community Contribution Award**：有账号即可、不用注册队伍、中文作品完全合规、公开仓库即可、$200/项可多次获评、滚动评审到 2026-12-11、先提交权重更高。
+给还没决定怎么参与的人：
 
-提交清单与文案见 `SUBMISSION.md`。提交前先查重：https://virtualembryo.ai/challenge/resources
+```
+要不要碰 Track 2（Agent Team）？
+├─ 想用 AI 助手边聊边看结果边调 → 不要碰。
+│  Rules §9 有 configuration lock：运行开始后固定 prompts/harness/预算，
+│  人不得读中间分数再指导下一步。我们这种协作方式只能算 Human Team。
+└─ 能接受全程锁死配置、提交 trajectory + prompts + harness → 可以。
 
-不建议碰主赛道：无生成模型、无 GPU、起跑晚约 3 个月，主赛道奖金不现实。
+数据能不能公开展示？
+├─ 赛事数据：仅供研究教育，尚未发表。
+│  任何发表/公开展示/再分发须经 UCSD Dr. Neil Chi 团队事先批准。
+└─ 外部公开数据：允许，但必须逐项披露。未披露即违规，
+   不管它有没有真的改变结果。
+
+只想贡献、不想训练模型？
+└─ Community Contribution Award。有账号就够，不用注册队伍，
+   不用参赛。中文作品完全合规，公开仓库即可，无需合并进官方仓库。
+   滚动评审，$200/项，可多次获评，截至 2026-12-11。
+```
+
+细节以 [官方 Rules](https://virtualembryo.ai/challenge/rules) 和 [Community Award 页面](https://virtualembryo.ai/challenge/community) 为准。
+
+---
+
+## 数据量与资源
+
+本包不依赖任何受限数据：
+
+- 合成图谱：`vec_trust/synthetic.py`，固定种子，可复现
+- 想接真实数据：`predict_with()` 接受任意 `(n, 3)` 特征矩阵和 `(n, genes)` 表达矩阵，用 h5ad / AnnData 读出后转成 numpy 即可
+- 推荐的开放数据源：Tahoe-100M（数据卡标 CC0-1.0）、CELLxGENE Census（逐数据集）、scPerturBench（**GPL-3.0，copyleft，注意传染**）
+
+不碰赛事提供的数据，因此本包可以直接公开发布、被任何人复用。
+
+---
+
+## 局限与边界（先读）
+
+| 边界 | 说明 |
+|---|---|
+| 数据是合成的 | 演示数字来自 `synthetic.py`，用途是演示失效模式可被检出，不能拿来评价任何真实模型 |
+| 不实现官方指标 | 官方 T1 是四项加权指标（含细胞状态分布），T2 是八项、T3 是五项，本工具一概没有实现，不能替代官方评测 |
+| 未在赛事数据上运行 | 没有碰赛事数据（许可限制）；接真实数据需要自己用 `predict_with()` 适配 |
+| 判决规则偏严 | 压力测试显示：把生成器换成参数正确的 sigmoid 族，当前单一阈值仍会判 REFUTED。也就是说方差大的模型可能被误判。v0.2 会把单一裁决拆成 ΔRMSE / Δ覆盖 / Δ区间宽度 三项分别报告 |
+| 许可表为二手调研 | 2026-11-16 已对主要条目按 LICENSE / README 原文复核并改正（scPerturBench GPL-3.0、CellVQ 与 PTV-1 无 LICENSE、OpenFold3 与 Protenix Apache-2.0、RF3 BSD-3 覆盖权重）；HuggingFace 侧条目因命令环境无法直连、未复核，仍标为待核。完整核对见 [vec-license-atlas](https://github.com/lm203688/vec-license-atlas) |
 
 ---
 
 ## 致谢与许可
 
-conformal 审计内核迁移自本地 SwarmLabs 项目（`engine/conformal.py` 等，MIT，Copyright 2026 lm203688）。诚实说明：SwarmLabs 内核目前**没有独立公开仓库**（`lm203688/swarmlabs` 不存在），相关公开描述见 `genetech-14-sites`。
+conformal 审计内核迁移自 [SwarmLabs](https://github.com/lm203688/swarmlabs-public) 的 `engine/conformal.py` 与 `engine/baseline_ladder.py`（MIT，Copyright 2026 lm203688），改写为模型无关接口，并新增三种外推协议与分级裁决。
 
 包内代码 MIT，Copyright 2026 Li Xing。
+
+提交社区贡献前，请先看 [官方资源页](https://virtualembryo.ai/challenge/resources) 有没有重复工作——官网明确说重叠时**先提交者权重更高**，改进已有作品通常比再造一份更划算。
