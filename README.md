@@ -8,6 +8,11 @@
 在线展示与下载：https://wbapp-jzwfj5frsi2adm0ahs258b.app.workbuddy.host/?sharecode=RRM6MWPMAO
 配套许可图谱已单独发布并取得 Zenodo DOI：[10.5281/zenodo.24274064](https://doi.org/10.5281/zenodo.24274064) （三层许可图谱，27 项逐条核到原文；代码 MIT / 表数据 CC0）。
 
+**归档 / Archival:** 已由 Software Heritage 完整归档（full visit，2026-11-16），目录 SWHID `swh:1:dir:9294ecc49e5aed63964d780afabd94664133d914`：
+https://archive.softwareheritage.org/swh:1:dir:9294ecc49e5aed63964d780afabd94664133d914/
+快照 SWHID `swh:1:snp:bbd4842992c75b553c6212d1f83bbec4b17a9481`。这份归档不依赖 GitHub，仓库将来改名或搬走，这棵树仍可读。
+
+
 
 ---
 
