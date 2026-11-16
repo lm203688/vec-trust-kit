@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vectrust"
+version = "0.2.0"
+description = "Pre-submission physical for the Virtual Embryo Challenge: drift-aware trust diagnostics, score mirror (local approximation), rule guard, and format/biology prechecks."
+readme = "README_EN.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Li Xing" }]
+keywords = ["virtual-cell", "single-cell", "conformal-prediction", "evaluation", "neurips"]
+dependencies = ["numpy>=1.21"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "anndata>=0.10", "pandas>=1.5"]
+
+[project.scripts]
+vectrust = "vec_trust.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/lm203688/vec-trust-kit"
+Challenge = "https://virtualembryo.ai/challenge"
+
+[tool.setuptools.packages.find]
+include = ["vec_trust*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
