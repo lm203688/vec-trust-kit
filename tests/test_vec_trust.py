@@ -79,14 +79,19 @@ def test_audit_deterministic():
     assert r1 == r2
 
 
-def test_core_lesson_domain_win_but_extrap_collapse():
-    """本工具的招牌断言：域内赢过基线，外推仍可能全崩。"""
+def test_baseline_ladder_rejects_poly3_without_gain():
+    """招牌断言（v0.2 修正版）：正确族是线性时，多项式没有增益 → 应被拒绝准入.
+
+    v0.1 的旧断言"多项式域内赢、外推崩"依赖合成器写死的多项式优势；
+    新机制下真实关系就是线性的，poly3 域内 RMSE 与 linear 几乎相同，
+    阶梯正确地拒绝它。这比旧版更诚实——基线阶梯的价值正是挡住无增益的复杂模型。
+    正确族/错误族的病因区分由 test_diagnose.py 验证。
+    """
     result = audit_all(make_atlas())
     ladder = result["baseline_ladder"]
-    model = result["per_model"]["model"]
+    poly3 = result["per_model"]["poly3"]
 
-    assert ladder["candidate"] == "model"
-    assert ladder["admitted"] is True
-    assert model["in_domain"]["rmse_rel"] < result["per_model"]["linear"]["in_domain"]["rmse_rel"]
-    assert model["overall_verdict"] == "REFUTED"
-    assert all(p["verdict"] == "REFUTED" for p in model["protocols"].values())
+    assert ladder["candidate"] == "model"  # baseline_ladder 内部沿用 model 作最高级标签
+    assert ladder["admitted"] is False     # 无增益 → 拒绝准入（诚实结论）
+    assert poly3["overall_verdict"] == "MODEL_FAIL_TEACHING"
+    assert "教学" in poly3["disclaimer"]   # 教学声明随结果返回
