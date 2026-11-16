@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use vec-trust-kit, please cite it."
+title: "vec-trust-kit: pre-submission physical for the Virtual Embryo Challenge"
+type: software
+authors:
+  - family-names: "Li"
+    given-names: "Xing"
+version: 0.2.0
+date-released: 2026-11-16
+license: MIT
+repository-code: "https://github.com/lm203688/vec-trust-kit"
+url: "https://virtualembryo.ai/challenge"
+keywords:
+  - virtual-cell
+  - conformal-prediction
+  - evaluation
+  - neurips-2026
+abstract: >
+  A CPU-only toolkit that separates model error from interval calibration in
+  virtual-cell extrapolation, mirrors official task metrics as a clearly-labelled
+  local approximation, and provides rule/format/biology pre-submission checks.
