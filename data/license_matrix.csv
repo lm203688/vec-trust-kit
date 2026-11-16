@@ -1,28 +1,27 @@
-﻿project,category,code_license,weight_license,data_license,commercial_ok,key_restriction,conflict,verdict,evidence,source,checked
-AlphaFold 2,structure,Apache-2.0,-,AFDB CC0,yes,AFDB 预测结构可商用可再训练,no,CONFIRMED,GitHub LICENSE + AFDB terms,https://github.com/google-deepmind/alphafold | https://alphafold.ebi.ac.uk/,2026-11-16
-AlphaFold 3,structure,Apache-2.0 (since 2026-06),non-commercial,-,no,权重非商业；Server 输出禁 docking/筛选/训练 ML,yes,CONFLICT_RESOLVED,代码 Apache 但权重仍非商业；Server ToS 限制输出用途,https://github.com/google-deepmind/alphafold3 | https://alphafoldserver.com/,2026-11-16
-AlphaFold Server output,structure,-,-,non-commercial,no,输出不得用于商业产品/对接/虚拟筛选/训练 ML,no,CONFIRMED,Server terms of use,https://alphafoldserver.com/,2026-11-16
-Boltz-2,structure+affinity,MIT,MIT,-,yes,Boltz-2.1 部分功能转托管 API 不在 MIT 范围,no,CONFIRMED,GitHub LICENSE (MIT),https://github.com/jwohlwend/boltz,2026-11-16
-Chai-1,structure,Apache-2.0,Apache-2.0,-,yes,Chai-2 不在该仓库许可范围,yes,CONFLICT_RESOLVED,仓库 Apache-2.0；二手资料曾记专有 API——以仓库原文为准,https://github.com/chaidiscovery/chai-lab,2026-11-16
-OpenFold3,structure,Apache-2.0,Apache-2.0,CC-BY-4.0 (training data),yes,训练数据 CC-BY-4.0 需署名,no,CONFIRMED,GitHub README 明示 Apache 2.0 学术与商用；openfold.io/science.html,https://github.com/aqlaboratory/openfold-3,2026-11-16
-Protenix-v1,structure,Apache-2.0,Apache-2.0,-,yes,v1 代码+权重 Apache 可商用,yes,CONFLICT_RESOLVED,README License 段明确 v1 Apache；v2 权重 proprietary 不可分发,https://github.com/bytedance/Protenix,2026-11-16
-Protenix-v2,structure,Apache-2.0,PROPRIETARY,-,no,v2 权重专有：禁复制/分发/再许可/披露,yes,CONFLICT_RESOLVED,README 2026-04-08 更新原文,https://github.com/bytedance/Protenix,2026-11-16
-RF3 (RoseTTAFold3),structure,BSD-3-Clause,BSD-3-Clause,-,yes,需保留归属声明,no,CONFIRMED,modelforge README + Microsoft/bioRxiv 2025 论文 BSD 许可,https://github.com/RosettaCommons/modelforge,2026-11-16
-Arc State,perturbation,Apache-2.0,-,-,no,官网记 CC-BY-NC-SA-4.0 非商业,yes,UNRESOLVED,官网与仓库记录冲突；未取得一手 LICENSE 原文,https://github.com/ArcInstitute/state,2026-11-16
-scLDM.CD4,perturbation,platform entry,platform entry,-,no,平台未标独立许可；属 CZI 平台模型,no,CLARIFIED,CZI 平台页无独立开源许可；按非商业处理,https://virtualcellmodels.cziscience.com/model/scldm-cd4,2026-11-16
-ProteinTalks / PTV-1,perturbation,open source,-,PTDS 仅学术非商业,no,数据矩阵经 db.prottalks.com 仅供学术非商业,no,CLARIFIED,仓库开源但配套 PTDS 数据非商业,https://github.com/guomics-lab/PTV-1,2026-11-16
-CellVQ,single-cell FM,MIT,MIT,-,yes,原表 github.com/CellVQ 为死链；正确仓库 A4Bio/CellVQ,no,CONFIRMED,README License 段 MIT；西湖大学团队,https://github.com/A4Bio/CellVQ,2026-11-16
-scGPT,single-cell FM,MIT,not separately declared,-,no,权重许可未单独声明；商用前需向作者确认,yes,UNRESOLVED,代码 MIT 但权重无独立声明——按保守口径标 no,https://github.com/bowang-lab/scGPT,2026-11-16
-Geneformer V2,single-cell FM,Apache-2.0,Apache-2.0,-,yes,GitHub 仓库已不存在；官方迁至 HuggingFace,no,CONFIRMED,CZI 平台页 + HuggingFace model card 均记 Apache-2.0,https://huggingface.co/ctheodoris/Geneformer,2026-11-16
-scFoundation,single-cell FM,Apache-2.0,non-commercial research,-,no,代码可商用但原始权重限非商业研究,yes,UNRESOLVED,README 与权重说明冲突；商用需授权,https://github.com/biomap-research/scFoundation,2026-11-16
-scBERT,single-cell FM,GPL-3.0,-,-,no,Copyleft 传染,no,CONFIRMED,GitHub LICENSE GPL-3.0,https://github.com/TencentAILabHealthcare/scBERT,2026-11-16
-CellPLM,single-cell FM,BSD-2,BSD-2,-,yes,原表 jyhuang92/CellPLM 为死链；正确仓库 OmicsML/CellPLM,no,CONFIRMED,GitHub LICENSE BSD-2-Clause；ICLR 2024,https://github.com/OmicsML/CellPLM,2026-11-16
-Tahoe-100M,perturbation data,-,-,CC0-1.0,yes,约 1 亿细胞 / 50 癌系 / 429GB；可商用可再训练,no,CONFIRMED,HuggingFace dataset card CC0-1.0,https://huggingface.co/datasets/tahoebio/Tahoe-100M,2026-11-16
-CELLxGENE Census,single-cell data,-,-,open (S3 + TileDB-SOMA),yes,以各数据集子集许可为准,no,CLARIFIED,Census 平台开放；单个数据集许可各异需逐集核对,https://cellxgene.cziscience.com/,2026-11-16
-Human Cell Atlas,single-cell data,-,-,CC-BY-4.0,yes,需署名,no,CONFIRMED,HCA 数据使用条款,https://data.humancellatlas.org/,2026-11-16
-VCC 2025 training set,perturbation data,-,-,CC-BY-4.0 (secondary),no,二手数据卡标 CC-BY-4.0；仅研究教育；公开发表需批准,yes,UNRESOLVED,二手数据卡未见一手确认；赛事条款限制公开发表,https://virtualcellchallenge.org/datasets,2026-11-16
-Virtual Embryo Challenge data,competition data,-,-,research+education only,no,公开发表/展示/再分发须经 UCSD Dr. Neil Chi 团队事先批准,no,CONFIRMED,官网 Terms 第 14 条,https://virtualembryo.ai/challenge/terms,2026-11-16
-cell-eval,evaluation,MIT,-,-,yes,-,no,CONFIRMED,GitHub LICENSE MIT,https://github.com/ArcInstitute/cell-eval,2026-11-16
-cz-benchmarks,evaluation,Apache-2.0,-,-,yes,-,no,CONFIRMED,GitHub LICENSE Apache-2.0,https://github.com/chanzuckerberg/cz-benchmarks,2026-11-16
-scPerturBench,evaluation,GPL-3.0,-,-,no,原表 MIT 有误；LICENSE 实为 GPL-3.0；同济大学团队,yes,CONFLICT_RESOLVED,BioBenchmarks 记 MIT 但仓库 LICENSE 与 DeepWiki 均记 GPL-3.0——以仓库为准,https://github.com/bm2-lab/scPerturBench,2026-11-16
-SwarmLabs engine-kit,UQ+evaluation,MIT,-,-,yes,内核源自本地项目 1.swarmlabs；无独立公开仓库,no,LOCAL_ONLY,本地 LICENSE MIT；公开的 genetech-14-sites 描述含 SwarmLabs,https://github.com/lm203688/genetech-14-sites,2026-11-16
+﻿project,category,code_license,weight_license,data_license,commercial_ok,key_restriction,conflict,source,checked
+AlphaFold 2,structure,Apache-2.0,-,AFDB CC0,yes,AFDB 预测结构可商用可再训练,no,https://github.com/google-deepmind/alphafold | https://alphafold.ebi.ac.uk/,2026-11-16
+AlphaFold 3,structure,Apache-2.0 (since 2026-06),non-commercial,-,no,权重非商业；Server 输出禁 docking/筛选/训练 ML,no,https://github.com/google-deepmind/alphafold3 | https://alphafoldserver.com/,2026-11-16
+AlphaFold Server output,structure,-,-,non-commercial,no,输出不得用于商业产品/对接/虚拟筛选/训练 ML,no,https://alphafoldserver.com/,2026-11-16
+Boltz-2,structure+affinity,MIT,-,-,yes,Boltz-2.1 已转托管 API 不在 MIT 范围,no,https://github.com/jwohlwend/boltz,2026-11-16
+Chai-1,structure,Apache-2.0,-,-,yes,Chai-2 不在许可范围,no,https://github.com/chaidiscovery/chai-lab,2026-11-16
+OpenFold3,structure,Apache-2.0,-,-,yes,2026-11-16 按 LICENSE 复核；此前记见仓库,no,https://github.com/aqlaboratory/openfold,2026-11-16
+Protenix-v1,structure,Apache-2.0,-,-,yes,2026-11-16 按 LICENSE 复核；此前记见仓库,no,https://github.com/bytedance/Protenix,2026-11-16
+RF3,structure,BSD-3-Clause,BSD-3-Clause,-,yes,LICENSE.md 明文覆盖源码与模型权重,no,https://raw.githubusercontent.com/RosettaCommons/foundry/HEAD/LICENSE.md,2026-11-16
+Arc State,perturbation,CC-BY-NC-SA-4.0,State Model Non-Commercial License,outputs under AUP,no,三层三套条款：代码 NC-SA；权重与输出另有非商业许可与 Acceptable Use Policy,yes,https://raw.githubusercontent.com/ArcInstitute/state/HEAD/README.md,2026-11-16
+scLDM.CD4,perturbation,platform entry,platform entry,-,unknown,平台未标独立许可；属 Biohub 平台模型,no,https://virtualcellmodels.cziscience.com/model/scldm-cd4,2026-11-16
+ProteinTalks / PTV-1,perturbation,none-found,-,PTDS 仅学术非商业,no,仓库无 LICENSE 文件（GitHub license API 404）默认保留所有权利；数据矩阵另受学术非商业条款,no,https://github.com/guomics-lab/PTV-1,2026-11-16
+CellVQ,single-cell FM,none-found,-,-,no,仓库无 LICENSE 文件（GitHub license API 404），不能当开源使用,no,https://github.com/A4Bio/CellVQ,2026-11-16
+scGPT,single-cell FM,MIT,-,-,yes,权重层未单独声明,no,https://github.com/bowang-lab/scGPT,2026-11-16
+Geneformer V2,single-cell FM,repository retired (404),-,-,unknown,原 GitHub 仓库已下线；许可以 HF 权重卡为准，本次未直连复核,no,https://huggingface.co/ctheodoris/Geneformer,2026-11-16
+scFoundation,single-cell FM,Apache-2.0,Model License (text not in repo),-,no,README 明示：任何对 Model Weights 的使用或利用受独立 Model License 约束；该条款文本不在仓库内,no,https://raw.githubusercontent.com/biomap-research/scFoundation/HEAD/README.md,2026-11-16
+scBERT,single-cell FM,GPL-3.0,-,-,no,Copyleft 传染：分发衍生作品须开源,no,https://github.com/TencentAILabHealthcare/scBERT,2026-11-16
+CellPLM,single-cell FM,BSD-2,-,-,yes,-,no,https://github.com/OmicsML/CellPLM,2026-11-16
+Tahoe-100M,perturbation data,-,-,CC0-1.0 (data card),yes,约 1 亿细胞 / 50 癌系 / 429GB；本轮未能直连 HF 复核,no,https://huggingface.co/datasets/tahoebio/Tahoe-100M,2026-11-16
+CELLxGENE Census,single-cell data,-,-,per-dataset,yes,工具侧 MIT；数据按各数据集许可,no,https://github.com/chanzuckerberg/cellxgene-census,2026-11-16
+Human Cell Atlas,single-cell data,-,-,CC-BY-4.0,yes,需署名,no,https://data.humancellatlas.org/,2026-11-16
+VCC 2025 training set,perturbation data,-,-,CC-BY-4.0 (secondary),unknown,二手数据卡标 CC-BY-4.0；动手前核对,no,https://virtualcellchallenge.org/datasets,2026-11-16
+Virtual Embryo Challenge data,competition data,-,-,research+education only,no,Terms §14：数据尚未发表，任何论文或公开演示使用须事先获 UCSD Dr. Neil Chi 与数据生成团队批准,no,https://virtualembryo.ai/challenge/terms,2026-11-16
+cell-eval,evaluation,MIT,-,-,yes,-,no,https://github.com/ArcInstitute/cell-eval,2026-11-16
+cz-benchmarks,evaluation,MIT,-,-,yes,LICENSE.md 为外包装文字，API 判 NOASSERTION，实为 MIT；工具识别与原文不一致,yes,https://github.com/chanzuckerberg/cz-benchmarks,2026-11-16
+scPerturBench,evaluation,GPL-3.0,-,-,no,Copyleft：含 leaderboard 代码，分发衍生作品须开源；此前误标 MIT,no,https://github.com/bm2-lab/scPerturBench,2026-11-16
+SwarmLabs engine-kit,UQ+evaluation,MIT,-,-,yes,本工具包 conformal 内核对齐 engine/conformal.py 与 engine/baseline_ladder.py,no,https://github.com/lm203688/swarmlabs-public,2026-11-16
