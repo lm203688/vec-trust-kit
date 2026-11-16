@@ -4,6 +4,7 @@
 
 面向 [NeurIPS 2026 Virtual Embryo Challenge](https://virtualembryo.ai/challenge) 的 Community Contribution Award：不造新模型，帮参赛者判断**什么时候该信模型、什么时候直接用简单基线**。
 
+永久仓库：https://github.com/lm203688/vec-trust-kit
 在线展示与下载：https://wbapp-jzwfj5frsi2adm0ahs258b.app.workbuddy.host/?sharecode=RRM6MWPMAO
 
 ---
