@@ -1,75 +1,81 @@
-# 提交清单：Community Contribution Award（v0.2）
+# 提交清单：Community Contribution Award
 
 ## 当前状态
 
-作品已上线、可安装、40 项测试通过。**只差你本人登录官网填表**（我没有你的挑战赛账号）。
+**永久仓库 + 展示站点都已上线并验证，只差你本人登录官网提交。**
 
 | 项 | 状态 |
 |---|---|
-| 可安装包（`pip install .`）+ `vectrust` CLI | ✅ |
-| 40 项 pytest 全通过 / notebook 全格执行 | ✅ |
-| 永久仓库（GitHub public） | ✅ https://github.com/lm203688/vec-trust-kit |
-| 展示站点 | ✅ https://wbapp-hwixdhi5nwlxgljprmwzzg.app.workbuddy.host/?sharecode=G75FFFHLWF |
-| 许可图谱闭环（unknown=0 / see repo=0 / 死链=0） | ✅ |
-| 官网提交表单 | ⬜ **需要你登录填写** |
+| 包内容（代码 + 中文教程 + 许可图谱 + 测试） | ✅ 完成 |
+| 10 项自测 / notebook 全格执行 | ✅ 通过 |
+| **GitHub 永久仓库** | ✅ https://github.com/lm203688/vec-trust-kit （public / main / 14 文件） |
+| GitHub API 独立复验 | ✅ 关键文件逐字节 MATCH；notebook 13 格完整；凭证扫描 CLEAN |
+| 展示站点 | ✅ 已部署并验证 HTTP 200 |
+| 官网提交表单 | ⬜ **需要你登录填写（我没有你的挑战赛账号）** |
+
+### 两个公开地址（提交时都填）
+
+**① 永久仓库（首选，作为主链接）**：https://github.com/lm203688/vec-trust-kit
+
+**② 可读展示站点（辅助，评审点开能直接看结论）**：https://wbapp-jzwfj5frsi2adm0ahs258b.app.workbuddy.host/?sharecode=RRM6MWPMAO
+
+> 说明：GitHub 仓库是永久存档、可 clone、可复现；展示站点把核心结果渲染成网页并附源码包下载，方便评审快速理解。两者内容一致。
 
 ---
 
-## 提交前必做
+## 提交步骤
 
-1. 查重：https://virtualembryo.ai/challenge/resources
-2. 提交：https://virtualembryo.ai/challenge/community （右上角登录，不需要注册参赛队伍）
-3. 主链接填 GitHub 仓库，备注附展示站点
+1. 先看官方资源页确认没有重复工作：
+   https://virtualembryo.ai/challenge/resources
+2. 打开社区贡献提交页，用右上角按钮登录：
+   https://virtualembryo.ai/challenge/community
+3. 主链接填 GitHub 仓库，备注里附展示站点；按下面的文案填写说明。
+4. 不需要注册参赛队伍，不需要提交比赛预测文件。
 
-**截止**：滚动评审，到 2026-12-11 或奖金发完；先提交权重更高。
-
----
-
-## 按官方五准则组织的推荐文案（中文）
-
-> **Useful（有用）**：赛前体检三模块——Score Mirror 在本地近似官方 50–100 分并分解 T1/T2/T3 加权指标、找最弱项；Rule Guard 判定外部数据是否落入 E9.5–E13.5 保护窗并生成披露模板；Bio Gate 做组成/marker/3D 连续性/生长/谱系五道门。P3 每榜仅 2 次不可撤回提交，这些自查降低"提交即报废"风险。
->
-> **Quality（质量）**：二维诊断把"模型误差（ΔRMSE）"与"区间构造（覆盖恢复）"分开——正确模型配自适应区间能通过，错误模型才失败，纠正了 v0.1 恒 REFUTED 的不可证伪缺陷。10 次重复划分 + bootstrap 95% CI + 配对置换检验；40 项测试、GitHub Actions 覆盖 3 个 Python 版本。
->
-> **Reach（触达）**：GitHub 公开仓库 + 双语 README（中英）+ 16 格中文教程 notebook，可 `pip install vectrust` 一键安装。
->
-> **Openness（开放）**：MIT 许可、CITATION.cff、issue 开放、许可图谱 27 条附证据 URL 与核查日期。
->
-> **Impact（影响）**：围绕 2025 官方结论"扰动模型尚未在所有指标上稳定超越朴素基线"构建，不造模型、不碰赛事数据（Terms §14），可直接被任何参赛者复用。
-
-**诚实前提**：内置 demo 全部是固定种子的**合成数据**，为机制演示，非实证结论；指标镜像为**本地近似**，非官方 scorer；Rule Guard/Bio Gate 为保守近似，输出是人工复核线索。文案不得省略这些限定。
+**截止**：滚动评审，资金发完或 Challenge 结束（2026-12-11）为止。越早提交权重越高——官网原话是早期教程帮到的人更多。
 
 ---
 
-## English pitch（如表单要求英文）
+## 推荐填写文案（中文）
 
-> **vec-trust-kit — a pre-submission physical for the Virtual Embryo Challenge.**
+> vec-trust-kit：虚拟细胞/胚胎模型可信度诊断工具包。中文，零 GPU，仅依赖 numpy。
 >
-> **Useful**: Before you spend one of your two irrevocable P3 submissions, it tells you how far you are from the `copy_last` floor on the official 50–100 scale, which weighted metric is weakest, and whether your external data crosses a protected developmental window (T1 E9.5–E13.5, nearness midpoint rule). Three modules: Score Mirror, Rule Guard, Bio Gate, plus a format precheck.
+> 包含三件可复用资产：
+> 1) 基线阶梯——域内指标上模型必须严格击败 copy_last / mean / linear 才准入；
+> 2) conformal 外推覆盖诊断——对应挑战赛三个任务（未见阶段/未见组织/未见扰动），分级判定 PASS_FULL 到 REFUTED，并含"区间虚宽导致的虚假通过"检查；
+> 3) 三层许可合规图谱——26 个虚拟细胞生态项目按代码/权重/数据分别标注，4 项冲突已标记，附来源 URL 与核查日期。
 >
-> **Quality**: A two-axis diagnosis separates model error (ΔRMSE) from interval calibration (coverage recovery) — a correct model + adaptive interval passes, a wrong model fails. 10 repeated splits, bootstrap 95% CIs, paired permutation tests; 40 passing tests, CI on 3 Python versions.
+> 附带 13 格中文教程 notebook 和 10 项自测，全部可复现。合成数据固定种子，不依赖任何受限数据，因此可直接公开发布。
 >
-> **Reach / Openness**: `pip install vectrust`, `vectrust` CLI, bilingual README, a 16-cell Chinese tutorial, MIT licensed, CITATION.cff, and a 27-entry three-layer licence matrix with evidence URLs.
+> 核心演示：一个三次多项式模型域内 RMSE 0.2376 击败线性基线 0.2502 而获准入，但三种外推覆盖全崩（0.083 / 0.359 / 0.491），总裁决 REFUTED。用于说明"域内赢过基线不等于外推可信"。
 >
-> **Honest scope**: the demo runs on synthetic data (a demo of a mechanism, not empirical evidence); the score mirror is a labelled local approximation, not the official scorer; it trains no model and uses no competition data. Adapted from SwarmLabs (MIT).
+> 内核迁移自 SwarmLabs（MIT），已按模型无关接口改写并保留署名。
+
+英文短版（如表单要求英文）：
+
+> vec-trust-kit: a Chinese-language, numpy-only trust diagnostics toolkit for virtual cell / embryo models. Provides a baseline ladder (copy_last / mean / linear / model admission), split-conformal coverage audits across the challenge's three extrapolation protocols, a 26-entry three-layer license matrix (code / weights / data), a reproducible Chinese notebook and 10 passing tests. Demonstrates a model that wins in-domain but collapses under all three extrapolation settings. MIT licensed; conformal core adapted from SwarmLabs (MIT).
 
 ---
 
 ## 提交前检查
 
-- [ ] GitHub 仓库公开、README（中英）/LICENSE/CITATION.cff 齐全
-- [ ] `pip install .` 后 `vectrust --help` 可用；40 tests 通过
-- [ ] 文案保留了"合成数据/本地近似/保守近似"三处诚实限定
-- [ ] 未把任何赛事数据放进仓库或站点
+- [ ] 仓库是公开的（社区贡献要求作品有公开地址，官网表单收链接不收文件）
+- [ ] `README.md`、`LICENSE`、`SUBMISSION.md` 都在仓库根目录
+- [ ] `python -m pytest tests/ -q` 仍为 10 passed
+- [ ] 许可图谱的冲突项已注明"以官方 LICENSE 原文为准"
+- [ ] 没有把任何赛事提供的数据放进仓库（赛事数据仅研究教育用途，公开发布须事先批准）
 
 ---
 
-## 可拆成多份独立贡献（官网 $200/项、可多次、无总额上限）
+## 为什么走这条而不是 Track 1
 
-| # | 独立贡献 | 英文一句话 |
+| 维度 | Community Contribution | Track 1 正赛 |
 |---|---|---|
-| 1 | 工具包本体 | "A pre-submission physical for VEC: floor-relative scoring, per-metric breakdown, drift-aware diagnosis. One command, no GPU." |
-| 2 | 中文教程 notebook | "A Chinese walkthrough from synthetic mechanism to your first legal submission." |
-| 3 | 三层许可图谱 | "Code, weights and data are three separate licences: 27 projects, evidence-backed, 9 documented conflicts." |
+| 要不要训练生成模型 | 不要 | 要，且需预测表达分布 + 3D 坐标 + 敲除效应 |
+| GPU | 不需要 | 主办方有 H100/H200 评测集群，个人从零不现实 |
+| 起跑线 | 8-17 才宣布奖项，滚动评审 | starter kit 8-15 已放，别人跑了约 3 个月 |
+| 现有资产匹配度 | 直接匹配（评测/诊断/许可） | 不匹配（我们没有时空生成模型） |
+| 数据许可风险 | 无，用合成数据 + 公开数据 | 赛事数据公开发表需事先批准 |
+| 账号要求 | 有账号即可，不用注册队伍 | 需正式注册队伍 |
 
-每份需独立地址与独立价值，不要把同一份工作拆成多份灌水。合理的预期是 2–3 份被接受。
+如果之后确实想碰 Track 1，可以另起一条线：先注册、拉 starter kit、跑通 `copy_last` baseline 提交一次合法预测，目标是拿一次公开榜单记录，不是冲奖。这和本贡献包互不冲突。
